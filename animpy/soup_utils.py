@@ -65,14 +65,23 @@ def scrape_details(url):
     print('\nSUMMARY: \n')
     wrapped = textwrap.dedent(summary)
     print(textwrap.fill(wrapped, initial_indent='    ', subsequent_indent='  ', width=110))
-    scrape_reviews(f'{url}/reviews')
+    choice = input('\nWould you like to read the reviews? ([y], n)')
+    if choice.startswith('n'):
+        clear_screen()
+        print('Thank you for using AnimPy!')
+        exit(0)
+    else:
+        scrape_reviews(f'{url}/reviews')
 
 
 def scrape_reviews(url):
+    clear_screen()
+    print(f'Retrieving: {url}')
     soup = _soup(url)
     reviews_all = soup.find_all('div', {'class': 'borderDark'})
-    print('\nREVIEWS:')
-    for i, post in enumerate(reviews_all):
+    for i, post in enumerate(reviews_all, 1):
+        clear_screen()
+        print(f'[ REVIEW: #{i} ]')
         review_div = post.find('div', {'class': 'spaceit textReadability word-break pt8 mt8'})
         # totally inefficient way to clean this up, too lazy to use re atm...
         review = review_div.text.split('\n\n\n\n\n', 1)[1]
@@ -84,11 +93,11 @@ def scrape_reviews(url):
         review_sections = review.rsplit('\n')
         for section in review_sections:
             print(textwrap.fill(section, initial_indent='    ', subsequent_indent='  ', width=110))
-        choice = input('\nWould like like to read another review? [(y),n] ')
+        choice = input('\nWould like like to read another review? ([y],n) ')
         if choice.startswith('n'):
-            break
-        else:
             clear_screen()
+            print('Thank you for using AnimPy!')
+            break
 
 
 def search(term):
