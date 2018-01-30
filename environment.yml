@@ -1,0 +1,9 @@
+name: animpy
+channels:
+  - defaults
+dependencies:
+  - beautifulsoup4=4.6.0
+  - click=6.7
+  - lxml=4.1.1
+  - python=3.6.3
+  - requests=2.18.4
