@@ -1,4 +1,5 @@
-from animpy.animpy import _soup, scrape_hits, scrape_details, scrape_reviews, search, search_divs
+from animpy.animpy import _soup, scrape_hits, scrape_details
+from animpy.animpy import scrape_reviews, search, search_divs
 
 
 def test_soup():
