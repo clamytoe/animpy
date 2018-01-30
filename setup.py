@@ -14,7 +14,7 @@ setup(
     license='MIT',
     author=AUTHOR,
     author_email=EMAIL,
-    description='Anime Research Tool',
+    description='Anime Python Research Tool (animpy)',
     install_requirements=[
         'beautifulsoup4',
         'click',
@@ -28,4 +28,4 @@ setup(
 )
 
 print(f'\n\n\t\t    '
-      'Animpy version {VERSION} installation succeeded.\n')
+      'AnimPy version {VERSION} installation succeeded.\n')
