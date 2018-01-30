@@ -2,7 +2,7 @@ from sys import exit
 import click
 import textwrap
 
-from animpy.soup_utils import clear_screen, search, scrape_details
+from animpy.animpy import clear_screen, search, scrape_details
 
 
 @click.command()
