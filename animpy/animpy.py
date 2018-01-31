@@ -1,11 +1,17 @@
 from re import sub
-from os import get_terminal_size, name, system
+from os import name, system
 from bs4 import BeautifulSoup
 import requests
 import textwrap
 
-term_col = get_terminal_size()[0] - 2
-WIDTH = term_col if term_col < 119 else 118
+WIDTH = 70
+
+try:
+    from os import get_terminal_size
+    term_col = get_terminal_size()[0] - 2
+    WIDTH = term_col if term_col < 119 else 118
+except OSError:
+    pass
 
 
 def display_reviews(reviews):
@@ -168,6 +174,7 @@ def search(term, count):
     """
     Searches for the show entered by the user
     :param term: String, the title of the show
+    :param count: Integer, number or search results to return
     :return: List, containing the first 10 hits
     """
     search_term = sub(' ', '+', term)
