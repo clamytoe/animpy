@@ -15,6 +15,8 @@ def cli(show, count, title):
     Entry point for the script, requires the title of the Anime to look up.
 
     If a title isn't given from the command line, one will be asked for.
+    :param show: Boolean, toggles display of search results on/off
+    :param count: Integer, determines how many search results to display
     :param title: String, the title of the show
     :return: None
     """
