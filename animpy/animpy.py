@@ -10,8 +10,8 @@ WIDTH = term_col if term_col < 119 else 118
 
 def display_reviews(reviews):
     """
-    Cleans up the review
-    :param review: String, contains the review section portion
+    Cleans up the reviews
+    :param reviews: String, contains the review section portion
     :return: List, with the review sections
     """
     # totally inefficient way to clean this up, too lazy to use re atm...
