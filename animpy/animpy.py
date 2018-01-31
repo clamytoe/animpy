@@ -8,19 +8,22 @@ term_col = get_terminal_size()[0] - 2
 WIDTH = term_col if term_col < 119 else 118
 
 
-def cleanup_review(review):
+def display_reviews(reviews):
     """
     Cleans up the review
     :param review: String, contains the review section portion
     :return: List, with the review sections
     """
     # totally inefficient way to clean this up, too lazy to use re atm...
+    review = reviews.split('\n\n\n\n\n', 1)[1]
     review = review.rsplit('\n\n', 2)[0]
     review = review.replace('\n\n', ' ')
     review = review.replace('\n        ', ' ')
     review = review.replace('            ', ' ')
     review = review.replace('    ', '')
-    return review.rsplit('\n')
+    review_sections = review.rsplit('\n')
+    for section in review_sections:
+        print(textwrap.fill(section, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
 
 
 def clear_screen():
@@ -31,25 +34,25 @@ def clear_screen():
     _ = system('cls' if name == 'nt' else 'clear')
 
 
-def display_reviews(reviews_all):
+def cleanup_reviews(reviews_all):
     """
     Displays the reviews for the show
     :param reviews_all: BeautifulSoup object, contains the reviews
     :return: None
     """
     for i, post in enumerate(reviews_all, 1):
+        total = len(reviews_all)
         clear_screen()
-        print(f'[ REVIEW: #{i} ]')
+        print(f'[ REVIEW: #{i} of {total} ]')
         review_div = post.find('div', {'class': 'spaceit textReadability word-break pt8 mt8'})
-        review = review_div.text.split('\n\n\n\n\n', 1)[1]
-        review_sections = cleanup_review(review)
-        for section in review_sections:
-            print(textwrap.fill(section, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
-        choice = input('\nWould like like to read another review? ([y],n) ')
-        if choice.startswith('n'):
-            clear_screen()
-            print('Thank you for using AnimPy!')
-            break
+        display_reviews(review_div.text)
+        if i != total:
+            choice = input('\nWould like like to read another review? ([y],n) ')
+            if choice.startswith('n'):
+                clear_screen()
+                exit_message()
+        else:
+            exit_message()
     else:
         print('Sorry, was not able to retrieve any reviews at this time...')
 
@@ -89,6 +92,15 @@ def display_summary(divs, summary):
     for line in summary.split('\n'):
         line = line.replace('  ', ' ')
         print(textwrap.fill(line, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
+
+
+def exit_message():
+    """
+    Displays an exit message
+    :return: None
+    """
+    print('\nThank you for using AnimPy!')
+    exit(0)
 
 
 def _soup(url):
@@ -145,7 +157,7 @@ def scrape_reviews(url):
     print(f'Retrieving: {url}')
     soup = _soup(url)
     reviews_all = soup.find_all('div', {'class': 'borderDark'})
-    display_reviews(reviews_all)
+    cleanup_reviews(reviews_all)
 
 
 def search(term):
