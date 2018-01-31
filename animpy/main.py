@@ -19,7 +19,6 @@ def cli(show, count, title):
     :return: None
     """
     clear_screen()
-    print(f'Show: {show}')
     print(f'Searching for: {title}')
     hits = search(title, count)
     if hits:
