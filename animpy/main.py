@@ -2,7 +2,7 @@ from sys import exit
 import click
 import textwrap
 
-from animpy.animpy import clear_screen, search, scrape_details
+from animpy.animpy import clear_screen, scrape_details, search, WIDTH
 
 
 @click.command()
@@ -37,7 +37,7 @@ def display_all_hits(results):
     print('--')
     for i, title in enumerate(results):
         wrapped = textwrap.dedent(f'[{i}] {title[0]}:\n{title[2]}')
-        print(textwrap.fill(wrapped, initial_indent='', subsequent_indent='    ', width=110))
+        print(textwrap.fill(wrapped, initial_indent='', subsequent_indent='    ', width=WIDTH))
     print('**')
     choice = int(input('Which one should I look up for you? '))
     return results[choice][1]

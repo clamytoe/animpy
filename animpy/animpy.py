@@ -1,8 +1,11 @@
 from re import sub
-from os import system, name
+from os import get_terminal_size, name, system
 from bs4 import BeautifulSoup
 import requests
 import textwrap
+
+term_col = get_terminal_size()[0] - 2
+WIDTH = term_col if term_col < 119 else 118
 
 
 def clear_screen():
@@ -11,6 +14,72 @@ def clear_screen():
     :return: None
     """
     _ = system('cls' if name == 'nt' else 'clear')
+
+
+def display_reviews(reviews_all):
+    """
+    Displays the reviews for the show
+    :param reviews_all: BeautifulSoup object, contains the reviews
+    :return: None
+    """
+    for i, post in enumerate(reviews_all, 1):
+        clear_screen()
+        print(f'[ REVIEW: #{i} ]')
+        review_div = post.find('div', {'class': 'spaceit textReadability word-break pt8 mt8'})
+        # totally inefficient way to clean this up, too lazy to use re atm...
+        review = review_div.text.split('\n\n\n\n\n', 1)[1]
+        review = review.rsplit('\n\n', 2)[0]
+        review = review.replace('\n\n', ' ')
+        review = review.replace('\n        ', ' ')
+        review = review.replace('            ', ' ')
+        review = review.replace('    ', '')
+        review_sections = review.rsplit('\n')
+        for section in review_sections:
+            print(textwrap.fill(section, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
+        choice = input('\nWould like like to read another review? ([y],n) ')
+        if choice.startswith('n'):
+            clear_screen()
+            print('Thank you for using AnimPy!')
+            break
+    else:
+        print('Sorry, was not able to retrieve any reviews at this time...')
+
+
+def display_review_choice(url):
+    """
+    Asks the user if they want to retrieve the reviews section
+    :param url: String, url of the main page
+    :return: None
+    """
+    choice = input('\nWould you like to read the reviews? ([y], n)')
+    if choice.startswith('n'):
+        clear_screen()
+        print('Thank you for using AnimPy!')
+        exit(0)
+    else:
+        scrape_reviews(f'{url}/reviews')
+
+
+def display_summary(divs, summary):
+    """
+    Displays the summary for the show
+    :param divs: List, the div blocks for some of the sections
+    :param summary: BeautifulSoup object, with the summary
+    :return: None
+    """
+    sections = ['English:', 'Synonyms:', 'Rating:']
+    clear_screen()
+    # iterate over all of the div tags and only return the sections that we are interested in
+    for div in divs:
+        for section in sections:
+            if div.startswith(section):
+                print(div.replace('\n ', '').strip())
+
+    print('\nSUMMARY: \n')
+    # wrapped = textwrap.dedent(summary)
+    for line in summary.split('\n'):
+        line = line.replace('  ', ' ')
+        print(textwrap.fill(line, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
 
 
 def _soup(url):
@@ -48,56 +117,26 @@ def scrape_details(url):
     :param url: String, the url of the page to scrape
     :return: None
     """
-    sections = ['English:', 'Synonyms:', 'Rating:']
     soup = _soup(url)
     summary = soup.find('span', {'itemprop': 'description'}).text
     info_section = soup.find('div', {'class': 'js-scrollfix-bottom'})
     all_divs = info_section.find_all('div')
     divs = [div.text.strip() for div in all_divs]
-
-    clear_screen()
-    # iterate over all of the div tags and only return the sections that we are interested in
-    for div in divs:
-        for section in sections:
-            if div.startswith(section):
-                print(div.strip())
-
-    print('\nSUMMARY: \n')
-    wrapped = textwrap.dedent(summary)
-    print(textwrap.fill(wrapped, initial_indent='    ', subsequent_indent='  ', width=110))
-    choice = input('\nWould you like to read the reviews? ([y], n)')
-    if choice.startswith('n'):
-        clear_screen()
-        print('Thank you for using AnimPy!')
-        exit(0)
-    else:
-        scrape_reviews(f'{url}/reviews')
+    display_summary(divs, summary)
+    display_review_choice(url)
 
 
 def scrape_reviews(url):
+    """
+    Scrapes the reviews page
+    :param url: String, url of the reviews page
+    :return: None
+    """
     clear_screen()
     print(f'Retrieving: {url}')
     soup = _soup(url)
     reviews_all = soup.find_all('div', {'class': 'borderDark'})
-    for i, post in enumerate(reviews_all, 1):
-        clear_screen()
-        print(f'[ REVIEW: #{i} ]')
-        review_div = post.find('div', {'class': 'spaceit textReadability word-break pt8 mt8'})
-        # totally inefficient way to clean this up, too lazy to use re atm...
-        review = review_div.text.split('\n\n\n\n\n', 1)[1]
-        review = review.rsplit('\n\n', 2)[0]
-        review = review.replace('\n\n', ' ')
-        review = review.replace('\n        ', ' ')
-        review = review.replace('            ', ' ')
-        review = review.replace('    ', '')
-        review_sections = review.rsplit('\n')
-        for section in review_sections:
-            print(textwrap.fill(section, initial_indent='    ', subsequent_indent='  ', width=110))
-        choice = input('\nWould like like to read another review? ([y],n) ')
-        if choice.startswith('n'):
-            clear_screen()
-            print('Thank you for using AnimPy!')
-            break
+    display_reviews(reviews_all)
 
 
 def search(term):
