@@ -138,13 +138,17 @@ def scrape_details(url):
     :param url: String, the url of the page to scrape
     :return: None
     """
-    soup = _soup(url)
-    summary = soup.find('span', {'itemprop': 'description'}).text
-    info_section = soup.find('div', {'class': 'js-scrollfix-bottom'})
-    all_divs = info_section.find_all('div')
-    divs = [div.text.strip() for div in all_divs]
-    display_summary(divs, summary)
-    display_review_choice(url)
+    try:
+        soup = _soup(url)
+        summary = soup.find('span', {'itemprop': 'description'}).text
+        info_section = soup.find('div', {'class': 'js-scrollfix-bottom'})
+        all_divs = info_section.find_all('div')
+        divs = [div.text.strip() for div in all_divs]
+        display_summary(divs, summary)
+        display_review_choice(url)
+    except AttributeError:
+        print("You're connection timed out, please try again.")
+        exit_message()
 
 
 def scrape_reviews(url):
@@ -160,7 +164,7 @@ def scrape_reviews(url):
     cleanup_reviews(reviews_all)
 
 
-def search(term):
+def search(term, count):
     """
     Searches for the show entered by the user
     :param term: String, the title of the show
@@ -170,7 +174,7 @@ def search(term):
     url = f'https://myanimelist.net/anime.php?q={search_term}'
     soup = _soup(url)
     hits = scrape_hits(soup)
-    return hits[:10]
+    return hits if count > len(hits) else hits[:count]
 
 
 def search_divs(term, divs):

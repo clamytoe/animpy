@@ -40,7 +40,23 @@ pip install -e .
 ```
 
 ## How to run
-Once that's all out of the way there are two ways to start the script.
+Once that's all out of the way using the script is pretty straight forward. If you use the *--help* flag it will display the followign usage statement:
+
+```bash
+Usage: animpy [OPTIONS]
+
+  Entry point for the script, requires the title of the Anime to look up.
+
+  If a title isn't given from the command line, one will be asked for.
+  :param title: String, the title of the show :return: None
+
+Options:
+  --show / --no-show   Toggles display search results on/off, defaults to off.
+  -c, --count INTEGER  Number of search results to display, default is 5.
+  -t, --title TEXT     Title of the Anime that you would like to look up, use
+                       double-quotes.
+  --help               Show this message and exit.
+  ```
 
 ### Method #1
 ```bash
@@ -51,14 +67,16 @@ You will be prompted for the title.
 
 ### Method #2
 ```bash
-animpy -t "the world is beautiful"
+animpy -t "D.Grey-man"
 
 # or
 
-animpy --title "the world is beautiful"
+animpy --show --count 2 --title "D.Gray-man"
 ```
 
 ## Sample run
+> Notice that even if there is a type-o in the search term, the correct show is still found.
+
 ![sample run](img/start.png)
 
 ![search](img/review.png)
