@@ -8,6 +8,21 @@ term_col = get_terminal_size()[0] - 2
 WIDTH = term_col if term_col < 119 else 118
 
 
+def cleanup_review(review):
+    """
+    Cleans up the review
+    :param review: String, contains the review section portion
+    :return: List, with the review sections
+    """
+    # totally inefficient way to clean this up, too lazy to use re atm...
+    review = review.rsplit('\n\n', 2)[0]
+    review = review.replace('\n\n', ' ')
+    review = review.replace('\n        ', ' ')
+    review = review.replace('            ', ' ')
+    review = review.replace('    ', '')
+    return review.rsplit('\n')
+
+
 def clear_screen():
     """
     Clears the screen
@@ -26,14 +41,8 @@ def display_reviews(reviews_all):
         clear_screen()
         print(f'[ REVIEW: #{i} ]')
         review_div = post.find('div', {'class': 'spaceit textReadability word-break pt8 mt8'})
-        # totally inefficient way to clean this up, too lazy to use re atm...
         review = review_div.text.split('\n\n\n\n\n', 1)[1]
-        review = review.rsplit('\n\n', 2)[0]
-        review = review.replace('\n\n', ' ')
-        review = review.replace('\n        ', ' ')
-        review = review.replace('            ', ' ')
-        review = review.replace('    ', '')
-        review_sections = review.rsplit('\n')
+        review_sections = cleanup_review(review)
         for section in review_sections:
             print(textwrap.fill(section, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
         choice = input('\nWould like like to read another review? ([y],n) ')
