@@ -19,7 +19,7 @@ First of all, you should setup a virtual environment. I've included both a *requ
 #### Initial setup
 ```bash
 cd Projects
-git clone https://github.com/clamytoe/animpye.git
+git clone https://github.com/clamytoe/animpy.git
 cd animpy
 ```
 
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 #### Final setup
 ```bash
 activate animpy # or source activate animpy
-python setup.py install
+pip install -e .
 ```
 
 ## How to run
