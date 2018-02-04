@@ -29,7 +29,7 @@ def cli(show, count, title):
         print(f'Retrieving information from: {url}\n')
         scrape_details(url)
     else:
-        print("You're connection timed out, please try again.")
+        print(f'Sorry I was not about to find anything called "{title}"')
 
 
 def display_all_hits(results):
