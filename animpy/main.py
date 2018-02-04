@@ -43,16 +43,18 @@ def display_all_hits(results):
     for i, title in enumerate(results):
         wrapped = textwrap.dedent(f'[{i}] {title[0]}:\n{title[2]}')
         print(f"\n{textwrap.fill(wrapped, initial_indent='', subsequent_indent='    ', width=WIDTH)}")
-    choice = int(input('\nWhich one should I look up for you? '))
-    if 0 <= choice < len(results):
-        return results[choice][1]
-    else:
-        print('That is not a valid choice!')
-        exit(0)
+    try:
+        choice = int(input('\nWhich one should I look up for you? '))
+        if 0 <= choice < len(results):
+            return results[choice][1]
+        else:
+            display_error()
+    except ValueError:
+        display_error()
 
 
-def display_none(term):
-    print(f"Sorry, couldn't find anything about {term}")
+def display_error():
+    print('That is not a valid choice!')
     exit(0)
 
 
