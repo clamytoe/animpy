@@ -5,6 +5,7 @@ import requests
 import textwrap
 
 WIDTH = 70
+LINES = 21
 
 try:
     from os import get_terminal_size
