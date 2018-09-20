@@ -1,16 +1,18 @@
-from re import sub
-from os import name, system
-from bs4 import BeautifulSoup
-import requests
 import textwrap
+from os import environ, name, system
+from re import sub
+
+import requests
+from bs4 import BeautifulSoup
 
 WIDTH = 70
 LINES = 21
 
 try:
     from os import get_terminal_size
-    term_col = get_terminal_size()[0] - 2
-    WIDTH = term_col if term_col < 119 else 118
+    term_col, term_lin = get_terminal_size()
+    WIDTH = term_col - 2 if term_col < 119 else 118
+    LINES = term_lin
 except OSError:
     pass
 
@@ -30,7 +32,12 @@ def display_reviews(reviews):
     review = review.replace('    ', '')
     review_sections = review.rsplit('\n')
     for section in review_sections:
-        print(textwrap.fill(section, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
+        wrapped = textwrap.fill(
+            section, initial_indent='    ',
+            subsequent_indent='  ',
+            width=WIDTH
+        )
+        print(wrapped)
 
 
 def clear_screen():
@@ -51,7 +58,10 @@ def cleanup_reviews(reviews_all):
         total = len(reviews_all)
         clear_screen()
         print(f'[ REVIEW: #{i} of {total} ]')
-        review_div = post.find('div', {'class': 'spaceit textReadability word-break pt8 mt8'})
+        review_div = post.find(
+            'div',
+            {'class': 'spaceit textReadability word-break pt8 mt8'}
+        )
         display_reviews(review_div.text)
         if i != total:
             choice = input('\nWould like like to read another review? ([y],n) ')
@@ -88,7 +98,8 @@ def display_summary(divs, summary):
     """
     sections = ['English:', 'Synonyms:', 'Rating:']
     clear_screen()
-    # iterate over all of the div tags and only return the sections that we are interested in
+    # iterate over all of the div tags and only return the sections that we are
+    # interested in
     for div in divs:
         for section in sections:
             if div.startswith(section):
@@ -98,7 +109,12 @@ def display_summary(divs, summary):
     # wrapped = textwrap.dedent(summary)
     for line in summary.split('\n'):
         line = line.replace('  ', ' ')
-        print(textwrap.fill(line, initial_indent='    ', subsequent_indent='  ', width=WIDTH))
+        wrapped = textwrap.fill(
+            line, initial_indent='    ',
+            subsequent_indent='  ',
+            width=WIDTH
+        )
+        print(wrapped)
 
 
 def exit_message():
@@ -125,7 +141,8 @@ def scrape_hits(soup):
     """
     Scrapes the soup object for the search term results that were found.
     :param soup: BeautifulSoup object
-    :return: Tuple, The title, url, and description of each is captured and returned.
+    :return: Tuple, The title, url, and description of each is captured and
+             returned.
     """
     # extract the sections that we are interested in
     hits_soup = soup.find_all('a', {'class': 'hoverinfo_trigger fw-b fl-l'})
