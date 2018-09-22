@@ -47,7 +47,7 @@ Usage: animpy [OPTIONS]
 
   Entry point for the script, requires the title of the Anime to look up.
 
-  If a title isn't given from the command line, one will be asked for.
+  If a title is not given from the command line, one will be asked for.
   :param title: String, the title of the show :return: None
 
 Options:
