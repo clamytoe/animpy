@@ -122,7 +122,7 @@ def exit_message() -> None:
     exit(0)
 
 
-def _soup(url: str) -> BeautifulSoup:
+def get_soup(url: str) -> BeautifulSoup:
     """
     Generic BeautifulSoup page scraping starter code
     :param url: String, the url of the page to scrape
@@ -166,7 +166,7 @@ def scrape_details(url: str) -> None:
     :return: None
     """
     try:
-        soup: BeautifulSoup = _soup(url)
+        soup: BeautifulSoup = get_soup(url)
         summary: str = soup.find("span", {"itemprop": "description"}).text
         info_section: BeautifulSoup = soup.find("div", {"class": "js-scrollfix-bottom"})
         all_divs: BeautifulSoup = info_section.find_all("div")
@@ -186,7 +186,7 @@ def scrape_reviews(url: str) -> None:
     """
     clear_screen()
     print(f"Retrieving: {url}")
-    soup: BeautifulSoup = _soup(url)
+    soup: BeautifulSoup = get_soup(url)
     reviews_all: BeautifulSoup = soup.find_all("div", {"class": "borderDark"})
     cleanup_reviews(reviews_all)
 
@@ -200,7 +200,7 @@ def search(term: str, count: int) -> list:
     """
     search_term: str = term.replace(" ", "+")
     url: str = f"https://myanimelist.net/anime.php?q={search_term}"
-    soup: BeautifulSoup = _soup(url)
+    soup: BeautifulSoup = get_soup(url)
     hits: List[Tuple[str, str, str]] = scrape_hits(soup)
     return hits if count > len(hits) else hits[:count]
 
