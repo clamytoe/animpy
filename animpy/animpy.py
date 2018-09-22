@@ -1,16 +1,17 @@
 import textwrap
 from os import name, system
+from typing import List, Tuple, Union
 
 import requests
 from bs4 import BeautifulSoup  # type: ignore
 from requests.exceptions import ConnectionError
-from typing import List, Tuple, Union
 
 WIDTH: int = 70
 LINES: int = 21
 
 try:
     from os import get_terminal_size
+
     term_col, term_lin = get_terminal_size()
     WIDTH = term_col - 2 if term_col < 119 else 118
     LINES = term_lin
@@ -25,18 +26,16 @@ def display_reviews(reviews: str) -> None:
     :return: List, with the review sections
     """
     # totally inefficient way to clean this up, too lazy to use re atm...
-    review = reviews.split('\n\n\n\n\n', 1)[1]
-    review = review.rsplit('\n\n', 2)[0]
-    review = review.replace('\n\n', ' ')
-    review = review.replace('\n        ', ' ')
-    review = review.replace('            ', ' ')
-    review = review.replace('    ', '')
-    review_sections: List[str] = review.rsplit('\n')
+    review = reviews.split("\n\n\n\n\n", 1)[1]
+    review = review.rsplit("\n\n", 2)[0]
+    review = review.replace("\n\n", " ")
+    review = review.replace("\n        ", " ")
+    review = review.replace("            ", " ")
+    review = review.replace("    ", "")
+    review_sections: List[str] = review.rsplit("\n")
     for section in review_sections:
         wrapped: str = textwrap.fill(
-            section, initial_indent='    ',
-            subsequent_indent='  ',
-            width=WIDTH
+            section, initial_indent="    ", subsequent_indent="  ", width=WIDTH
         )
         print(wrapped)
 
@@ -46,7 +45,7 @@ def clear_screen() -> None:
     Clears the screen
     :return: None
     """
-    _: int = system('cls' if name == 'nt' else 'clear')
+    _: int = system("cls" if name == "nt" else "clear")
 
 
 def cleanup_reviews(reviews_all: BeautifulSoup) -> None:
@@ -58,21 +57,20 @@ def cleanup_reviews(reviews_all: BeautifulSoup) -> None:
     for i, post in enumerate(reviews_all, 1):
         total: int = len(reviews_all)
         clear_screen()
-        print(f'[ REVIEW: #{i} of {total} ]')
+        print(f"[ REVIEW: #{i} of {total} ]")
         review_div: BeautifulSoup = post.find(
-            'div',
-            {'class': 'spaceit textReadability word-break pt8 mt8'}
+            "div", {"class": "spaceit textReadability word-break pt8 mt8"}
         )
         display_reviews(review_div.text)
         if i != total:
-            choice: str = input('\nWould like like to read another review? ([y],n) ')
-            if choice.startswith('n'):
+            choice: str = input("\nWould like like to read another review? ([y],n) ")
+            if choice.startswith("n"):
                 clear_screen()
                 exit_message()
         else:
             exit_message()
     else:
-        print('Sorry, was not able to retrieve any reviews at this time...')
+        print("Sorry, was not able to retrieve any reviews at this time...")
 
 
 def display_review_choice(url: str) -> None:
@@ -81,13 +79,13 @@ def display_review_choice(url: str) -> None:
     :param url: String, url of the main page
     :return: None
     """
-    choice: str = input('\nWould you like to read the reviews? ([y], n)')
-    if choice.startswith('n'):
+    choice: str = input("\nWould you like to read the reviews? ([y], n)")
+    if choice.startswith("n"):
         clear_screen()
-        print('Thank you for using AnimPy!')
+        print("Thank you for using AnimPy!")
         exit(0)
     else:
-        scrape_reviews(f'{url}/reviews')
+        scrape_reviews(f"{url}/reviews")
 
 
 def display_summary(divs: List[str], summary: str) -> None:
@@ -97,22 +95,20 @@ def display_summary(divs: List[str], summary: str) -> None:
     :param summary: BeautifulSoup object, with the summary
     :return: None
     """
-    sections: List[str] = ['English:', 'Synonyms:', 'Rating:']
+    sections: List[str] = ["English:", "Synonyms:", "Rating:"]
     clear_screen()
     # iterate over all of the div tags and only return the sections that we are
     # interested in
     for div in divs:
         for section in sections:
             if div.startswith(section):
-                print(div.replace('\n ', '').strip())
+                print(div.replace("\n ", "").strip())
 
-    print('\nSUMMARY: \n')
-    for line in summary.split('\n'):
-        line = line.replace('  ', ' ')
+    print("\nSUMMARY: \n")
+    for line in summary.split("\n"):
+        line = line.replace("  ", " ")
         wrapped: str = textwrap.fill(
-            line, initial_indent='    ',
-            subsequent_indent='  ',
-            width=WIDTH
+            line, initial_indent="    ", subsequent_indent="  ", width=WIDTH
         )
         print(wrapped)
 
@@ -122,7 +118,7 @@ def exit_message() -> None:
     Displays an exit message
     :return: None
     """
-    print('\nThank you for using AnimPy!')
+    print("\nThank you for using AnimPy!")
     exit(0)
 
 
@@ -134,7 +130,7 @@ def _soup(url: str) -> BeautifulSoup:
     """
     try:
         page: requests.Response = requests.get(url)
-        soup: BeautifulSoup = BeautifulSoup(page.content, 'lxml')
+        soup: BeautifulSoup = BeautifulSoup(page.content, "lxml")
         return soup
     except ConnectionError:
         print(f"Unable to connect to: {url}")
@@ -150,11 +146,13 @@ def scrape_hits(soup: BeautifulSoup) -> List[Tuple[str, str, str]]:
              returned.
     """
     # extract the sections that we are interested in
-    hits_soup: BeautifulSoup = soup.find_all('a', {'class': 'hoverinfo_trigger fw-b fl-l'})
-    desc_soup: BeautifulSoup = soup.find_all('div', {'class': 'pt4'})
+    hits_soup: BeautifulSoup = soup.find_all(
+        "a", {"class": "hoverinfo_trigger fw-b fl-l"}
+    )
+    desc_soup: BeautifulSoup = soup.find_all("div", {"class": "pt4"})
     # extract the information that we need
     titles: List[str] = [hit.string for hit in hits_soup]
-    links: List[str] = [hit['href'] for hit in hits_soup]
+    links: List[str] = [hit["href"] for hit in hits_soup]
     desc: List[str] = [blurb.text for blurb in desc_soup]
     # combine it all
     captured: List[Tuple[str, str, str]] = list(zip(titles, links, desc))
@@ -169,9 +167,9 @@ def scrape_details(url: str) -> None:
     """
     try:
         soup: BeautifulSoup = _soup(url)
-        summary: str = soup.find('span', {'itemprop': 'description'}).text
-        info_section: BeautifulSoup = soup.find('div', {'class': 'js-scrollfix-bottom'})
-        all_divs: BeautifulSoup = info_section.find_all('div')
+        summary: str = soup.find("span", {"itemprop": "description"}).text
+        info_section: BeautifulSoup = soup.find("div", {"class": "js-scrollfix-bottom"})
+        all_divs: BeautifulSoup = info_section.find_all("div")
         divs: List[str] = [div.text.strip() for div in all_divs]
         display_summary(divs, summary)
         display_review_choice(url)
@@ -187,9 +185,9 @@ def scrape_reviews(url: str) -> None:
     :return: None
     """
     clear_screen()
-    print(f'Retrieving: {url}')
+    print(f"Retrieving: {url}")
     soup: BeautifulSoup = _soup(url)
-    reviews_all: BeautifulSoup = soup.find_all('div', {'class': 'borderDark'})
+    reviews_all: BeautifulSoup = soup.find_all("div", {"class": "borderDark"})
     cleanup_reviews(reviews_all)
 
 
@@ -200,8 +198,8 @@ def search(term: str, count: int) -> list:
     :param count: Integer, number or search results to return
     :return: List, containing the first 10 hits
     """
-    search_term: str = term.replace(' ', '+')
-    url: str = f'https://myanimelist.net/anime.php?q={search_term}'
+    search_term: str = term.replace(" ", "+")
+    url: str = f"https://myanimelist.net/anime.php?q={search_term}"
     soup: BeautifulSoup = _soup(url)
     hits: List[Tuple[str, str, str]] = scrape_hits(soup)
     return hits if count > len(hits) else hits[:count]
@@ -216,5 +214,5 @@ def search_divs(term: str, divs: list) -> Union[list, None]:
     """
     for div in divs:
         if div.startswith(term):
-            return div.split('\n')[1]
+            return div.split("\n")[1]
     return None
