@@ -1,6 +1,6 @@
 import textwrap
 from os import name, system
-from typing import List, Tuple, Union
+from typing import List, Optional, Tuple
 
 import requests
 from bs4 import BeautifulSoup  # type: ignore
@@ -205,7 +205,7 @@ def search(term: str, count: int) -> list:
     return hits if count > len(hits) else hits[:count]
 
 
-def search_divs(term: str, divs: list) -> Union[list, None]:
+def search_divs(term: str, divs: list) -> Optional[list]:
     """
     Searches the provided div tags for the term that we are interested in
     :param term: String, the search term
