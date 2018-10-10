@@ -2,6 +2,7 @@
 > Just a little tool to make it easier for me to look up anime reviews.
 
 ![Python version][python-version]
+![Latest version][latest-version]
 [![Build Status][travis-image]][travis-url]
 [![BCH compliance][bch-image]][bch-url]
 [![GitHub issues][issues-image]][issues-url]
@@ -83,7 +84,8 @@ animpy --show --count 2 --title "D.Gray-man"
 
 Just hitting the *ENTER* key will continue with the next screen. To exit enter an *n*.
 
-[python-version]:https://img.shields.io/badge/python-3.6.3-brightgreen.svg
+[python-version]:https://img.shields.io/badge/python-3.7-brightgreen.svg
+[latest-version]:https://img.shields.io/badge/version-0.4.0-blue.svg
 [travis-image]:https://travis-ci.org/clamytoe/animpy.svg?branch=master
 [travis-url]:https://travis-ci.org/clamytoe/animpy
 [bch-image]:https://bettercodehub.com/edge/badge/clamytoe/animpy?branch=master
