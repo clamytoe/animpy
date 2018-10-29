@@ -17,26 +17,28 @@ I initially wrote [Parental Guide (pguide)](https://github.com/clamytoe/pguide.g
 ## How to set it all up
 First of all, you should setup a virtual environment. I've included both a *requirements.txt* and an *environment.yml* file in order to make things easier. Perform the steps in the *Initial* and *Final* setups but do either the *Anaconda* or *Python* ones depending on which one you prefer to work with.
 
-#### Initial setup
+#### Initial Setup
 ```bash
 cd Projects
 git clone https://github.com/clamytoe/animpy.git
 cd animpy
 ```
 
-#### Anaconda setup
+#### Anaconda Setup
 ```bash
 conda env create
 ```
 
-#### Regular Python setup
+#### Regular Python 3 Setup
 ```bash
-pip install -r requirements.txt
+See the Final Setup below if you're using a regular python 3 setup.
+The python3 virtual environment needs to be activated BEFORE running 'pip install -r requirements.txt'
 ```
 
-#### Final setup
+#### Final Setup
 ```bash
 activate animpy # or source activate animpy
+pip install -r requirements.txt # Use this step at this point if using a regular python setup with a python3 virtual env
 pip install -e .
 ```
 
