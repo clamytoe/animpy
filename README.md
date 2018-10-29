@@ -32,8 +32,7 @@ conda env create
 #### Regular Python 3 Setup
 ```bash
 See the Final Setup below if you're using a regular python 3 setup.
-The python3 virtual environment needs to be activated BEFORE running
-pip install -r requirements.txt
+The python3 virtual environment needs to be activated BEFORE running 'pip install -r requirements.txt'
 ```
 
 #### Final Setup
