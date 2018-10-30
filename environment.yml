@@ -2,9 +2,9 @@ name: animpy
 channels:
   - defaults
 dependencies:
-  - beautifulsoup4=4.6.0
-  - click=6.7
-  - lxml=4.2.2
-  - pytest==3.6.2
-  - python=3.7.0
-  - requests=2.19.1
+  - beautifulsoup4
+  - click
+  - lxml
+  - pytest
+  - python>=3.6
+  - requests
