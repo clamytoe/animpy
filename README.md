@@ -14,36 +14,40 @@ My kids are big movie and anime buffs and are constantly asking me to look up sh
 
 I initially wrote [Parental Guide (pguide)](https://github.com/clamytoe/pguide.git) but IMDb isn't really the greatest place to find reviews for anime. That lead me to start from scratch, so I created this one that scrapes [MyAnimeList](https://myanimelist.net) instead.
 
-## How to set it all up
-First of all, you should setup a virtual environment. I've included both a *requirements.txt* and an *environment.yml* file in order to make things easier. Perform the steps in the *Initial* and *Final* setups but do either the *Anaconda* or *Python* ones depending on which one you prefer to work with.
 
-#### Initial Setup
-```bash
-cd Projects
-git clone https://github.com/clamytoe/animpy.git
-cd animpy
-```
+## Requirements
+1. Requires Python 3.6
+2. Requires all the packages *you* need in order to install **animpy** into your preferred flavor of virtual environment (of the three mentioned in the steps below that is).
 
-#### Anaconda Setup
-```bash
-conda env create
-```
 
-#### Regular Python 3 Setup
-```bash
-See the Final Setup below if you're using a regular python 3 setup.
-The python3 virtual environment needs to be activated BEFORE running 'pip install -r requirements.txt'
-```
+## How To Set It All Up
+Use a virtual environment. A *requirements.txt* and an *environment.yml* file are included already, along with the files *Pipfile* and *Pipfile.lock* if you'd like to use Pipenv. Perform the steps in the *Initial Setup* to clone the repo and then choose whichever set of *Setup* instructions for the virtual environment you prefer to work with.
 
-#### Final Setup
-```bash
-activate animpy # or source activate animpy
-pip install -r requirements.txt # Use this step at this point if using a regular python setup with a python3 virtual env
-pip install -e .
-```
+### Initial Setup: Cloning the Repo
+1. Create and then change into the directory you would like to install **animpy** into.
+   - `mkdir <directory name>`
+   - `cd <directory name>`
+   - `git clone https://github.com/clamytoe/animpy.git`
+   - `cd animpy`
 
-## How to run
-Once that's all out of the way using the script is pretty straight forward. If you use the *--help* flag it will display the followign usage statement:
+### Anaconda Setup
+1. `conda env create` (creates the virtual environment)
+2. `activate animpy` or `source activate animpy` (activates the virtual environment)
+3. `pip install -e .` (installs the animpy package)
+
+### Regular Python 3 Virtual Environment Setup
+1. `python3 -m venv </path/to/new/virtual/environment>` (creates the virtual environment)
+2. `source </path/to/new/virtual/environment>/bin/activate` (activates the virtual environment)
+3. `pip install -r requirements.txt` (installs all required dependencies)
+4. `pip install -e .` (installs the animpy package)
+
+### Pipenv Setup
+1. `pipenv install` (creates the virtual environment, installs all dependencies from Pipfile.lock, and installs the animpy package)
+2. `pipenv shell` (activates the virtual environment)
+
+
+## How To Use
+Once you've installed **animpy** into your virtual environment, using the script is pretty straight forward. If you use the *--help* flag it will display the following usage statement:
 
 ```bash
 Usage: animpy [OPTIONS]
@@ -76,6 +80,7 @@ animpy -t "D.Grey-man"
 
 animpy --show --count 2 --title "D.Gray-man"
 ```
+
 
 ## Sample run
 > Notice that even if there is a type-o in the search term, the correct show is still found.
