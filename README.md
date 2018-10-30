@@ -91,7 +91,7 @@ animpy --show --count 2 --title "D.Gray-man"
 
 Just hitting the *ENTER* key will continue with the next screen. To exit enter an *n*.
 
-[python-version]:https://img.shields.io/badge/python-3.7-brightgreen.svg
+[python-version]:https://img.shields.io/badge/python-3.6-brightgreen.svg
 [latest-version]:https://img.shields.io/badge/version-0.4.0-blue.svg
 [travis-image]:https://travis-ci.org/clamytoe/animpy.svg?branch=master
 [travis-url]:https://travis-ci.org/clamytoe/animpy
