@@ -26,7 +26,7 @@ def display_reviews(reviews: str) -> None:
     :return: List, with the review sections
     """
     # totally inefficient way to clean this up, too lazy to use re atm...
-    review = reviews.split("\n\n\n\n\n", 1)[1]
+    review = reviews.split("\n\n\n\n\n", 1)[1] if "\n\n\n\n\n" in reviews else reviews
     review = review.rsplit("\n\n", 2)[0]
     review = review.replace("\n\n", " ")
     review = review.replace("\n        ", " ")
