@@ -6,4 +6,4 @@ from .main import cli, display_all_hits, display_error
 
 __author__ = 'Martin Uribe'
 __email__ = 'clamytoe@gmail.com'
-__version__ = '0.4.0'
+__version__ = '0.5.0'

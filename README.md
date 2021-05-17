@@ -1,4 +1,5 @@
 # Anime Python Research Tool (animpy)
+
 > Just a little tool to make it easier for me to look up anime reviews.
 
 ![Python version][python-version]
@@ -14,16 +15,17 @@ My kids are big movie and anime buffs and are constantly asking me to look up sh
 
 I initially wrote [Parental Guide (pguide)](https://github.com/clamytoe/pguide.git) but IMDb isn't really the greatest place to find reviews for anime. That lead me to start from scratch, so I created this one that scrapes [MyAnimeList](https://myanimelist.net) instead.
 
-
 ## Requirements
-1. Requires Python 3.6
+
+1. Requires Python 3.6+
 2. Requires all the packages *you* need in order to install **animpy** into your preferred flavor of virtual environment (of the three mentioned in the steps below that is).
 
-
 ## How To Set It All Up
-Use a virtual environment. A *requirements.txt* and an *environment.yml* file are included already, along with the files *Pipfile* and *Pipfile.lock* if you'd like to use Pipenv. Perform the steps in the *Initial Setup* to clone the repo and then choose whichever set of *Setup* instructions for the virtual environment you prefer to work with.
+
+Use a virtual environment. A *requirements.txt* and an *environment.yml* file are included already. Perform the steps in the *Initial Setup* to clone the repo and then choose whichever set of *Setup* instructions for the virtual environment you prefer to work with.
 
 ### Initial Setup: Cloning the Repo
+
 1. Create and then change into the directory you would like to install **animpy** into.
    - `mkdir <directory name>`
    - `cd <directory name>`
@@ -31,22 +33,20 @@ Use a virtual environment. A *requirements.txt* and an *environment.yml* file ar
    - `cd animpy`
 
 ### Anaconda Setup
+
 1. `conda env create` (creates the virtual environment)
 2. `activate animpy` or `source activate animpy` (activates the virtual environment)
 3. `pip install -e .` (installs the animpy package)
 
 ### Regular Python 3 Virtual Environment Setup
+
 1. `python3 -m venv </path/to/new/virtual/environment>` (creates the virtual environment)
 2. `source </path/to/new/virtual/environment>/bin/activate` (activates the virtual environment)
 3. `pip install -r requirements.txt` (installs all required dependencies)
 4. `pip install -e .` (installs the animpy package)
 
-### Pipenv Setup
-1. `pipenv install` (creates the virtual environment, installs all dependencies from Pipfile.lock, and installs the animpy package)
-2. `pipenv shell` (activates the virtual environment)
-
-
 ## How To Use
+
 Once you've installed **animpy** into your virtual environment, using the script is pretty straight forward. If you use the *--help* flag it will display the following usage statement:
 
 ```bash
@@ -66,6 +66,7 @@ Options:
   ```
 
 ### Method #1
+
 ```bash
 animpy
 ```
@@ -73,6 +74,7 @@ animpy
 You will be prompted for the title.
 
 ### Method #2
+
 ```bash
 animpy -t "D.Grey-man"
 
@@ -81,8 +83,8 @@ animpy -t "D.Grey-man"
 animpy --show --count 2 --title "D.Gray-man"
 ```
 
-
 ## Sample run
+
 > Notice that even if there is a type-o in the search term, the correct show is still found.
 
 ![sample run](img/start.png)
@@ -91,8 +93,8 @@ animpy --show --count 2 --title "D.Gray-man"
 
 Just hitting the *ENTER* key will continue with the next screen. To exit enter an *n*.
 
-[python-version]:https://img.shields.io/badge/python-3.6-brightgreen.svg
-[latest-version]:https://img.shields.io/badge/version-0.4.0-blue.svg
+[python-version]:https://img.shields.io/badge/python-3.9-brightgreen.svg
+[latest-version]:https://img.shields.io/badge/version-0.5.0-blue.svg
 [travis-image]:https://travis-ci.org/clamytoe/animpy.svg?branch=master
 [travis-url]:https://travis-ci.org/clamytoe/animpy
 [bch-image]:https://bettercodehub.com/edge/badge/clamytoe/animpy?branch=master
