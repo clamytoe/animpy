@@ -1,10 +1,13 @@
 name: animpy
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - beautifulsoup4
+  - black
   - click
+  - isort
   - lxml
   - pytest
-  - python>=3.6
+  - python>=3.9
   - requests
