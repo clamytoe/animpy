@@ -167,8 +167,8 @@ def scrape_details(url: str) -> None:
     """
     try:
         soup: BeautifulSoup = get_soup(url)
-        summary: str = soup.find("span", {"itemprop": "description"}).text
-        info_section: BeautifulSoup = soup.find("div", {"class": "js-scrollfix-bottom"})
+        summary: str = soup.find("p", {"itemprop": "description"}).text
+        info_section: BeautifulSoup = soup.find("td", {"class": "borderClass"})
         all_divs: BeautifulSoup = info_section.find_all("div")
         divs: List[str] = [div.text.strip() for div in all_divs]
         display_summary(divs, summary)
@@ -198,7 +198,7 @@ def search(term: str, count: int) -> list:
     :param count: Integer, number or search results to return
     :return: List, containing the first 10 hits
     """
-    search_term: str = term.replace(" ", "+")
+    search_term: str = term.replace(" ", "%20")
     url: str = f"https://myanimelist.net/anime.php?q={search_term}"
     soup: BeautifulSoup = get_soup(url)
     hits: List[Tuple[str, str, str]] = scrape_hits(soup)
