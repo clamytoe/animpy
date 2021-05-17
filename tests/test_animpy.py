@@ -1,9 +1,15 @@
 import pytest
+from animpy import (
+    get_soup,
+    scrape_details,
+    scrape_hits,
+    scrape_reviews,
+    search,
+    search_divs,
+)
 
-from animpy import get_soup, scrape_hits, scrape_details
-from animpy import scrape_reviews, search, search_divs
 
-
+# TODO: Add real tests!
 def test_soup():
     pass
 
